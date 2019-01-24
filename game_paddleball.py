@@ -44,8 +44,10 @@ class Paddle:
         self.canvas.move(self.id, 200, 300)
         self.x = 0
         self.canvas_width = self.canvas.winfo_width()
+        self.started = False
         self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
         self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
+        self.canvas.bind_all('<Button-1>', self.start_game)
         
     def draw(self):
         self.canvas.move(self.id, self.x, 0)
@@ -60,6 +62,9 @@ class Paddle:
 
     def turn_right(self, evt):
         self.x = 2
+
+    def start_game(self, evt):
+        self.started = True
         
 tk = Tk()
 tk.title('Игра')
@@ -76,7 +81,7 @@ paddle = Paddle(canvas, 'blue')
 ball = Ball(canvas, paddle, 'red')
 
 while 1:
-    if ball.hit_bottom == False:
+    if ball.hit_bottom == False and paddle.started == True:
         ball.draw()
         paddle.draw()
     '''эти функции постоянно перерисовывают содержимое экрана'''
